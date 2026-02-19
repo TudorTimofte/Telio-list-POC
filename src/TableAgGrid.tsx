@@ -13,6 +13,9 @@ const fetchData = async () => {
 export default function TableAgGrid() {
   const [rowData, setRowData] = useState([]);
   const [quickFilter, setQuickFilter] = useState('');
+  const [assignedTo, setAssignedTo] = useState('');
+  const [status, setStatus] = useState('');
+  const [submited, setSubmited] = useState('');
 
   const columnDefs = useMemo(() => [
     { headerName: '', checkboxSelection: true, width: 40, pinned: 'left' },
@@ -27,12 +30,32 @@ export default function TableAgGrid() {
     { headerName: 'Last interaction', field: 'last interaction', filter: true, flex: 1 },
   ], []);
 
+
+  // Extract unique filter values from data
+  const assignedToOptions = useMemo(() => Array.from(new Set(rowData.map(r => r['assigned to']))), [rowData]);
+  const statusOptions = useMemo(() => Array.from(new Set(rowData.map(r => r['Status']))), [rowData]);
+  const submitedOptions = useMemo(() => Array.from(new Set(rowData.map(r => r['Submited']))), [rowData]);
+
+  // Filtering logic
+  const filteredRows = useMemo(() => {
+    return rowData.filter(row => {
+      if (assignedTo && row['assigned to'] !== assignedTo) return false;
+      if (status && row['Status'] !== status) return false;
+      if (submited && row['Submited'] !== submited) return false;
+      if (quickFilter) {
+        const searchLower = quickFilter.toLowerCase();
+        return Object.values(row).some(val => String(val).toLowerCase().includes(searchLower));
+      }
+      return true;
+    });
+  }, [rowData, assignedTo, status, submited, quickFilter]);
+
   useEffect(() => {
     fetchData().then(setRowData);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="=py-10">
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
         <div className="flex flex-col gap-4 mb-4">
           <div className="flex items-center gap-8">
@@ -40,14 +63,17 @@ export default function TableAgGrid() {
           </div>
           <div className="flex flex-wrap gap-2 items-center justify-between">
             <div className="flex gap-2">
-              <select className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[120px]">
-                <option>Assigned to</option>
+              <select value={assignedTo} onChange={e => setAssignedTo(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[120px]">
+                <option value="">Assigned to</option>
+                {assignedToOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
               </select>
-              <select className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[100px]">
-                <option>Status</option>
+              <select value={status} onChange={e => setStatus(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[100px]">
+                <option value="">Status</option>
+                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
               </select>
-              <select className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[110px]">
-                <option>Submited</option>
+              <select value={submited} onChange={e => setSubmited(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[110px]">
+                <option value="">Submited</option>
+                {submitedOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
               </select>
             </div>
             <div className="flex gap-2 items-center">
@@ -68,7 +94,7 @@ export default function TableAgGrid() {
         </div>
         <div className="ag-theme-quartz" style={{ height: 600, width: '100%' }}>
           <AgGridReact
-            rowData={rowData}
+            rowData={filteredRows}
             columnDefs={columnDefs}
             domLayout="autoHeight"
             pagination={true}

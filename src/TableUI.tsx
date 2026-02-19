@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   useReactTable,
@@ -78,8 +78,33 @@ export default function TableUI() {
     queryFn: fetchMessages,
   });
 
+  // Filtering state
+  const [assignedTo, setAssignedTo] = useState('');
+  const [status, setStatus] = useState('');
+  const [submited, setSubmited] = useState('');
+  const [search, setSearch] = useState('');
+
+  // Extract unique filter values from data
+  const assignedToOptions = useMemo(() => Array.from(new Set((data || []).map(r => r['assigned to']))), [data]);
+  const statusOptions = useMemo(() => Array.from(new Set((data || []).map(r => r['Status']))), [data]);
+  const submitedOptions = useMemo(() => Array.from(new Set((data || []).map(r => r['Submited']))), [data]);
+
+  // Filter and search logic
+  const filteredData = useMemo(() => {
+    return (data || []).filter(row => {
+      if (assignedTo && row['assigned to'] !== assignedTo) return false;
+      if (status && row['Status'] !== status) return false;
+      if (submited && row['Submited'] !== submited) return false;
+      if (search) {
+        const searchLower = search.toLowerCase();
+        return Object.values(row).some(val => String(val).toLowerCase().includes(searchLower));
+      }
+      return true;
+    });
+  }, [data, assignedTo, status, submited, search]);
+
   const table = useReactTable({
-    data: data || [],
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -88,7 +113,7 @@ export default function TableUI() {
   if (error) return <div className="p-8 text-center text-red-500">Error loading data</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="py-10">
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200">
         {/* Header Bar with Tabs and Controls */}
         <div className="flex flex-col gap-4 px-8 pt-8 pb-4 border-b border-gray-100">
@@ -101,29 +126,23 @@ export default function TableUI() {
           </div>
           <div className="flex flex-wrap gap-2 items-center justify-between">
             <div className="flex gap-2">
-              <div className="relative">
-                <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[120px]">
-                  Assigned to
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-              </div>
-              <div className="relative">
-                <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[100px]">
-                  Status
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-              </div>
-              <div className="relative">
-                <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[110px]">
-                  Submited
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-              </div>
+              <select value={assignedTo} onChange={e => setAssignedTo(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[120px]">
+                <option value="">Assigned to</option>
+                {assignedToOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+              <select value={status} onChange={e => setStatus(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[100px]">
+                <option value="">Status</option>
+                {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+              <select value={submited} onChange={e => setSubmited(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium min-w-[110px]">
+                <option value="">Submited</option>
+                {submitedOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
             </div>
             <div className="flex gap-2 items-center">
               <div className="relative">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
-                <input type="text" placeholder="Search" className="pl-9 pr-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 w-40" />
+                <input type="text" placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} className="pl-9 pr-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 w-40" />
               </div>
               <button className="px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-sm font-medium flex items-center gap-2 shadow-none">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" /></svg>
