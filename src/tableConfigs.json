@@ -1,0 +1,44 @@
+{
+  "config1": {
+    "columns": [
+      "Last Name",
+      "Assigned to",
+      "Status",
+      "Sent",
+      "SIDIS Nr.",
+      "Submited"
+    ],
+    "filters": ["Assigned to", "Status", "Sent"],
+    "paging": { "pageIndex": 0, "pageSize": 20 },
+    "headerText": "Approvals History",
+    "headerVisibility": true
+  },
+  "config2": {
+    "columns": [
+      "Title",
+      "Last Name",
+      "First Name",
+      "Assigned to",
+      "SIDIS Nr.",
+      "Cell",
+      "Status",
+      "Submited",
+      "Last interaction"
+    ],
+    "filters": ["Assigned to", "Status", "Submited"],
+    "paging": { "pageIndex": 0, "pageSize": 20 },
+    "headerText": "Approvals History",
+    "headerVisibility": true
+  },
+  "config3": {
+    "columns": [
+      "Name",
+      "Status",
+      "Sent"
+    ],
+    "filters": ["Assigned to", "Status", "Sent"],
+    "paging": { "pageIndex": 0, "pageSize": 20 },
+    "headerText": "Approvals Board",
+    "headerVisibility": false
+  }
+}
