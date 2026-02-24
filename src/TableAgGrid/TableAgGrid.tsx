@@ -53,8 +53,16 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 		setRowData(mapped);
 	}, [data, config]);
 
-	return (
-			<div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8" style={{ width: '50%' }}>
+		// Calculate responsive width based on column count
+		const minWidth = 400;
+		const colWidth = 160;
+		const containerWidth = columnDefs.length > 0 ? Math.max(columnDefs.length * colWidth, minWidth) : minWidth;
+
+		return (
+			<div
+				className="mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8"
+				style={{ width: containerWidth }}
+			>
 				<div className="flex flex-col gap-4 mb-4">
 					<div className="flex items-center gap-8">
 						  <h2 className="text-2xl font-bold text-gray-900">{config?.headerText || 'Approvals Board (AG Grid)'}</h2>
@@ -77,15 +85,43 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 							/> */}
 					</div>
 				</div>
-				<div className="ag-theme-quartz" style={{ height: 572, width: '100%' }}>
-					<table className="min-w-full text-sm border border-gray-200 rounded-b-2xl">
-						<tbody className="bg-white divide-y divide-gray-100">
+				<div className="ag-theme-quartz" style={{ maxHeight: 572, width: '100%', overflowY: 'auto' }}>
+					<table
+						className="w-full text-sm border border-gray-200 rounded-b-2xl overflow-hidden"
+						style={{ tableLayout: 'auto' }}
+					>
+						<thead>
+							<tr className="bg-gray-100">
+								{columnDefs.map((col, idx) => (
+									<th
+										key={col.field}
+										className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap"
+										style={{ minWidth: 80 }}
+									>
+										{col.headerName}
+									</th>
+								))}
+							</tr>
+						</thead>
+						<tbody>
 							{pagedRows.map((rowData, idx) => (
-								<TableAgGridRow
+								<tr
 									key={idx}
-									rowData={rowData}
-									columnDefs={columnDefs}
-								/> 
+									className={
+										idx % 2 === 0
+											? 'bg-white hover:bg-gray-50 transition-colors'
+											: 'bg-gray-50 hover:bg-gray-100 transition-colors'
+									}
+								>
+									{columnDefs.map(col => (
+										<td
+											key={col.field}
+											className="px-3 py-2 align-middle text-[15px] text-gray-900 border-b border-gray-100 text-left"
+										>
+											{rowData[col.field]}
+										</td>
+									))}
+								</tr>
 							))}
 						</tbody>
 					</table>
@@ -96,8 +132,10 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 					pageCount={pageCount}
 					setPageIndex={setPageIndex}
 					pageSize={pageSize}
+					setPageSize={setPageSize}
+					pageSizeOptions={config?.Paging?.PageSizeOptions || [10, 20, 50, 100]}
 					total={filteredRows.length}
-				/> 
+				/>
 			</div>
 	);
 }

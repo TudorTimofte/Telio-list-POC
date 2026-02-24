@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TableAgGridPagination({ pageIndex, pageCount, setPageIndex, pageSize, total }) {
+export default function TableAgGridPagination({ pageIndex, pageCount, setPageIndex, pageSize, setPageSize, pageSizeOptions = [10, 20, 50, 100], total }) {
 	return (
 		<div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white rounded-b-2xl mt-2">
 			<div className="flex items-center gap-2 text-sm text-gray-600">
@@ -8,9 +8,11 @@ export default function TableAgGridPagination({ pageIndex, pageCount, setPageInd
 				<select
 					className="border rounded px-2 py-1 text-sm"
 					value={pageSize}
-					disabled
+					onChange={e => setPageSize(Number(e.target.value))}
 				>
-					<option value={pageSize}>{pageSize}</option>
+					{pageSizeOptions.map(opt => (
+						<option key={opt} value={opt}>{opt}</option>
+					))}
 				</select>
 				out of {total}
 			</div>
