@@ -18,8 +18,8 @@ function App() {
 
   return (
     <div>
-      <TableUI config={tableConfigs.config1} data={mockData} />
-      <div className="my-12 border-t border-gray-300 w-full max-w-7xl mx-auto" />
+      {/* <TableUI config={tableConfigs.config1} data={mockData} />
+      <div className="my-12 border-t border-gray-300 w-full max-w-7xl mx-auto" /> */}
       <TableAgGrid config={tableConfigs.config3} data={mockData} />
     </div>
   );

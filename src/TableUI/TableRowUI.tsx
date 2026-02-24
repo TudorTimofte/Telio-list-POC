@@ -15,4 +15,3 @@ export default function TableRowUI({ row }) {
 		</tr>
 	);
 }
-// ...existing code from src/TableRowUI.tsx...

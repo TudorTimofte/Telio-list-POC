@@ -34,6 +34,3 @@ export default function TableFiltersUI({
 		</div>
 	);
 }
-
-// Additional code or comments can follow here...
-// ...existing code from src/TableFiltersUI.tsx...
