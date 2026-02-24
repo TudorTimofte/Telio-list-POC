@@ -1,205 +1,112 @@
 {
-  "config1":  {
-  "FilterMetadata": {
-    "TitleResourceKey": null,
-    "Name": "DynamicType_hfZ_lhxiTn0D3pZTjtk3UvkEt_GM3DnRPatufmN_qvU",
-    "Fields": [
-      {
-        "IsEnumerable": true,
-        "Type": "String",
-        "Name": "GenerationMode",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": false,
-        "Type": "String",
-        "Name": "Name",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": true,
-        "Type": "String",
-        "Name": "Rating",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "Multiplicity": "Single",
-        "Type": {
-          "Name": "Interval`1",
-          "Fields": [
-            {
-              "IsEnumerable": false,
-              "Type": "Int",
-              "Name": "From",
-              "IsDisplayed": true,
-              "LabelResourceKey": "e552cc8f-5ed2-449b-92f3-59a6454cd23a"
-            },
-            {
-              "IsEnumerable": false,
-              "Type": "Int",
-              "Name": "To",
-              "IsDisplayed": true,
-              "LabelResourceKey": "e552cc8f-5ed2-449b-92f3-59a6454cd23a"
-            }
-          ]
+  "config1": {
+    "FilterMetadata": {
+      "TitleResourceKey": null,
+      "Name": "DynamicType_hfZ_lhxiTn0D3pZTjtk3UvkEt_GM3DnRPatufmN_qvU",
+      "Fields": [
+        {
+          "Type": "String",
+          "Name": "HandledBy",
+          "IsDisplayed": false,
+          "LabelResourceKey": null
         },
-        "Name": "peEFFunctionsDateDiffYeareDateOfBirthConvertDateTimeNowNullable1",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": true,
-        "Type": "String",
-        "Name": "CompanyIds",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": false,
-        "Type": "String",
-        "Name": "FacilityId",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": true,
-        "Type": "Bool",
-        "Name": "CanWorkFromHome",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "IsEnumerable": true,
-        "Type": "Bool",
-        "Name": "IsReligious",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
-      },
-      {
-        "Multiplicity": "Single",
-        "Type": {
-          "Name": "Interval`1",
-          "Fields": [
-            {
-              "IsEnumerable": false,
-              "Type": "Float",
-              "Name": "From",
-              "IsDisplayed": true,
-              "LabelResourceKey": "e552cc8f-5ed2-449b-92f3-59a6454cd23a"
-            },
-            {
-              "IsEnumerable": false,
-              "Type": "Float",
-              "Name": "To",
-              "IsDisplayed": true,
-              "LabelResourceKey": "e552cc8f-5ed2-449b-92f3-59a6454cd23a"
-            }
-          ]
+        {
+          "Type": "String",
+          "Name": "Status",
+          "IsDisplayed": false,
+          "LabelResourceKey": null
         },
-        "Name": "Salary",
-        "IsDisplayed": false,
-        "LabelResourceKey": null
+        {
+          "Type": "String",
+          "Name": "Submitted",
+          "IsDisplayed": false,
+          "LabelResourceKey": null
+        }
+      ]
+    },
+    "FilterModel": {
+      "HandledBy": null,
+      "Status": null,
+      "Submitted": null
+    },
+    "Columns": [
+      {
+        "ColumnName": "FirstName",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "LastName",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "c8557ac7-438d-4dfc-b598-2f641136d129",
+        "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "ColumnName": "AssignedTo",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Sidis",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Cell",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Status",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Submitted",
+        "DataType": "DateTime",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "e40f3527-15b6-4e14-9159-9ca039e9fa20",
+        "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "ColumnName": "LastLogin",
+        "DataType": "DateTime",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "14667683-36f5-4428-bbd0-ee3b1f5c0bb9",
+        "DescriptionTranslationKey": "29f9482f-2846-4d32-8151-360bd152dcac"
       }
-    ]
-  },
-  "FilterModel": {
-    "GenerationMode": null,
-    "Name": null,
-    "Rating": null,
-    "peEFFunctionsDateDiffYeareDateOfBirthConvertDateTimeNowNullable1": {
-      "From": null,
-      "To": null
-    },
-    "CompanyIds": null,
-    "FacilityId": null,
-    "CanWorkFromHome": null,
-    "IsReligious": null,
-    "Salary": {
-      "From": null,
-      "To": null
+    ],
+    "Paging": {
+      "CurrentPage": 1,
+      "PageSize": 20,
+      "PageSizeOptions": [10, 20, 50, 100]
     }
-  },
-  "Columns": [
-    {
-      "ColumnName": "FirstName",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "LastName",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "c8557ac7-438d-4dfc-b598-2f641136d129",
-      "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
-    },
-    {
-      "ColumnName": "AssignedTo",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Sidis",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Cell",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Status",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Submitted",
-      "DataType": "DateTime",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "e40f3527-15b6-4e14-9159-9ca039e9fa20",
-      "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
-    },
-    {
-      "ColumnName": "LastLogin",
-      "DataType": "DateTime",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "14667683-36f5-4428-bbd0-ee3b1f5c0bb9",
-      "DescriptionTranslationKey": "29f9482f-2846-4d32-8151-360bd152dcac"
-    }
-  ],
-  "Paging": {
-    "CurrentPage": 1,
-    "PageSize": 20,
-    "PageSizeOptions": [10, 20, 50, 100]
   }
-}
 }
