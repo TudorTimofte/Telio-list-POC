@@ -85,7 +85,7 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 							/> */}
 					</div>
 				</div>
-				<div className="ag-theme-quartz" style={{ maxHeight: 572, width: '100%', overflowY: 'auto' }}>
+				<div className="ag-theme-quartz" style={{ maxHeight: 800, width: '100%', overflowY: 'auto' }}>
 					<table
 						className="w-full text-sm border border-gray-200 rounded-b-2xl overflow-hidden"
 						style={{ tableLayout: 'auto' }}
