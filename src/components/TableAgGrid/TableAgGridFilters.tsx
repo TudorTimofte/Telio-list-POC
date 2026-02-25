@@ -1,38 +1,9 @@
 import { useMemo, useState, useEffect, useRef, useCallback } from "react";
-
-type RowData = Record<string, unknown>;
-type SubmittedBucket = "Today" | "Yesterday" | "Older";
-type FiltersState = Record<string, string[]>;
-
-interface FilterField {
-  Name: string;
-  Type?: string;
-}
-
-interface FilterMetadata {
-  Fields?: FilterField[];
-}
-
-interface ColumnConfig {
-  ColumnName: string;
-  DataType?: string;
-  HeaderFilterName?: string | null;
-}
-
-interface FiltersConfig {
-  FilterMetadata?: FilterMetadata;
-  FilterModel?: Record<string, unknown>;
-  Columns?: ColumnConfig[];
-  FilterAliases?: Record<string, string>;
-  FilterPresetOptions?: Record<string, string[]>;
-}
-
-interface TableAgGridFiltersProps {
-  config: FiltersConfig;
-  rows: RowData[];
-  onFilteredRowsChange: (rows: RowData[]) => void;
-  onFilterInteraction: () => void;
-}
+import type {
+  FiltersState,
+  SubmittedBucket,
+  TableAgGridFiltersProps,
+} from "./TableAgGridFilters.types";
 
 const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
 

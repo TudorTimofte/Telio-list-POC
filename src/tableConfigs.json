@@ -8,19 +8,47 @@
           "Type": "String",
           "Name": "HandledBy",
           "IsDisplayed": false,
-          "LabelResourceKey": null
+          "LabelResourceKey": null,
+          "Options": []
         },
         {
           "Type": "String",
           "Name": "Status",
           "IsDisplayed": false,
-          "LabelResourceKey": null
+          "LabelResourceKey": null,
+          "Options": [
+            {
+              "Value": "InProgress",
+              "DisplayText": "In Progress"
+            }, {
+              "Value": "Unassigned",
+              "DisplayText": "Unassigned"
+            }, {
+              "Value": "Pending",
+              "DisplayText": "Pending"
+            }, {
+              "Value": "Approved",
+              "DisplayText": "Approved"
+            }
+          ]
         },
         {
           "Type": "String",
           "Name": "Submitted",
           "IsDisplayed": false,
-          "LabelResourceKey": null
+          "LabelResourceKey": null,
+          "Options": [
+            {
+              "Value": "Today",
+              "DisplayText": "Today"
+            }, {
+              "Value": "Yesterday",
+              "DisplayText": "Yesterday"
+            }, {
+              "Value": "Older",
+              "DisplayText": "Older"
+            }
+          ]
         }
       ]
     },

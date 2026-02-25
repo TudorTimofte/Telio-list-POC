@@ -1,7 +1,7 @@
 
 import './App.css';
-import TableUI from './TableUI/TableUI';
-import TableAgGrid from './TableAgGrid/TableAgGrid';
+// import TableUI from './components/TableUI/TableUI';
+import TableAgGrid from './components/TableAgGrid/TableAgGrid';
 import tableConfigs from './tableConfigs.json';
 
 
