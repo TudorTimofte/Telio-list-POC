@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 // import TableAgGridRow from "./TableAgGridRow";
 import TableAgGridPagination from "./TableAgGridPagination";
-import TableAgGridFilters from "../FilterDropdown/TableAgGridFilters";
+import TableAgGridFilters from "../FilterMenu/FilterMenu";
 
 interface TableAgGridProps {
   config: any;
