@@ -1,7 +1,11 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import TableAgGridRow from './TableAgGridRow';
+// import TableAgGridRow from './TableAgGridRow';
 import TableAgGridPagination from './TableAgGridPagination';
+import TableAgGridFilters from './TableAgGridFilters';
+import type { FilterConfig } from '../../types';
+import { getFiltersFromConfig } from '../../utils/configAdapter';
+import { useTableFilters } from '../../hooks/useTableFilters';
 
 interface TableAgGridProps {
 	config: any;
@@ -21,6 +25,24 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 			sortable: col.Sortable,
 		}));
 	}, [config]);
+  const activeConfig = config
+	 const filterDefinitions = useMemo(() => getFiltersFromConfig(activeConfig), [activeConfig])
+
+  const { filteredData, filterStates, setFilterState } = useTableFilters(
+    data,
+    filterDefinitions
+  )
+
+	  // Generate filter configurations dynamically
+  const filterConfigs: FilterConfig[] = useMemo<FilterConfig[]>(() => {
+    return filterDefinitions.map((filterDef) => ({
+      id: filterDef.id,
+      label: filterDef.label,
+      options: filterDef.extractOptions(data),
+      selectedValues: filterStates[filterDef.id] || [],
+      onChange: (values: string[]) => setFilterState(filterDef.id, values),
+    }))
+  }, [data, filterDefinitions, filterStates, setFilterState])
 
 	// No filtering logic, just return all rows
 	const filteredRows = useMemo(() => rowData, [rowData]);
@@ -58,6 +80,7 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 		const colWidth = 160;
 		const containerWidth = columnDefs.length > 0 ? Math.max(columnDefs.length * colWidth, minWidth) : minWidth;
 
+
 		return (
 			<div
 				className="mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8"
@@ -67,8 +90,9 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
 					<div className="flex items-center gap-8">
 						  <h2 className="text-2xl font-bold text-gray-900">{config?.headerText || 'Approvals Board (AG Grid)'}</h2>
 					</div>
-					<div className="flex flex-wrap gap-2 items-center justify-between">
-							{/* Filters UI is commented out as per instructions */}
+					<div className="flex flex-wrap gap-2 table-filters-white">
+            {/* Filters UI is commented out as per instructions */}
+              <TableAgGridFilters filters={filterConfigs} />
 							{/* <TableAgGridFilters
 								assignedTo={assignedTo}
 								setAssignedTo={setAssignedTo}

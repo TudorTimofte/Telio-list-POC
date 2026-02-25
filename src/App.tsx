@@ -1,8 +1,8 @@
 
 import './App.css';
-import TableUI from './TableUI/TableUI';
-import TableAgGrid from './TableAgGrid/TableAgGrid';
-import tableConfigs from './tableConfigs.json';
+// import TableUI from './components/TableUI/TableUI';
+import TableAgGrid from './components/TableAgGrid/TableAgGrid';
+import tableConfigs from './data/tableConfigs.json';
 
 
 import React, { useEffect, useState } from 'react';

@@ -1,0 +1,145 @@
+{
+  "config1": {
+    "FilterModel": {
+      "HandledBy": null,
+      "Status": null,
+      "Submitted": null
+    },
+    "FilterMetadata": {
+      "TitleResourceKey": null,
+      "Name": "DynamicType_hfZ_lhxiTn0D3pZTjtk3UvkEt_GM3DnRPatufmN_qvU",
+      "Fields": [
+        {
+          "Type": "String",
+          "Name": "HandledBy",
+          "IsDisplayed": false,
+          "LabelResourceKey": null,
+          "Options": []
+        },
+        {
+          "Type": "String",
+          "Name": "Status",
+          "IsDisplayed": false,
+          "LabelResourceKey": null,
+          "Options": [
+            {
+              "Value": "Unassigned",
+              "Label": "Unassigned"
+            },
+            {
+              "Value": "Pending",
+              "Label": "Pending"
+            },
+            {
+              "Value": "InProgress",
+              "Label": "In Progress"
+            },
+            {
+              "Value": "Approved",
+              "Label": "Approved"
+            }
+          ]
+        },
+        {
+          "Type": "String",
+          "Name": "Submitted",
+          "IsDisplayed": false,
+          "LabelResourceKey": null,
+          "Options": [
+            {
+              "Value": "Today",
+              "Label": "Today"
+            },
+            {
+              "Value": "Yesterday",
+              "Label": "Yesterday"
+            },
+            {
+              "Value": "Older",
+              "Label": "Older"
+            }
+          ]
+        }
+      ]
+    },
+    "Columns": [
+      {
+        "ColumnName": "FirstName",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "LastName",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "c8557ac7-438d-4dfc-b598-2f641136d129",
+        "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "ColumnName": "AssignedTo",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Sidis",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Cell",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Status",
+        "DataType": "String",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "Submitted",
+        "DataType": "DateTime",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "e40f3527-15b6-4e14-9159-9ca039e9fa20",
+        "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "ColumnName": "LastLogin",
+        "DataType": "DateTime",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "14667683-36f5-4428-bbd0-ee3b1f5c0bb9",
+        "DescriptionTranslationKey": "29f9482f-2846-4d32-8151-360bd152dcac"
+      }
+    ],
+    "Paging": {
+      "CurrentPage": 1,
+      "PageSize": 20,
+      "PageSizeOptions": [10, 20, 50, 100]
+    }
+  }
+}
