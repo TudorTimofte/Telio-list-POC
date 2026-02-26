@@ -1,7 +1,3 @@
-import { useMemo } from "react";
-
-export type SubmittedBucket = "Today" | "Yesterday" | "Older";
-
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 const MONTH_INDEX: Record<string, number> = {
@@ -19,11 +15,7 @@ const MONTH_INDEX: Record<string, number> = {
   dec: 11,
 };
 
-/* ===============================
-   Pure Utilities (No React)
-================================ */
-
-function normalizeToStartOfDay(date: Date): number {
+export function normalizeToStartOfDay(date: Date): number {
   return new Date(
     date.getFullYear(),
     date.getMonth(),
@@ -31,13 +23,13 @@ function normalizeToStartOfDay(date: Date): number {
   ).getTime();
 }
 
-function diffInDays(a: Date, b: Date): number {
+export function diffInDays(a: Date, b: Date): number {
   return Math.floor(
     (normalizeToStartOfDay(a) - normalizeToStartOfDay(b)) / MS_PER_DAY,
   );
 }
 
-function parseDate(value: unknown, referenceDate: Date): Date | null {
+export function parseDate(value: unknown, referenceDate: Date): Date | null {
   const raw = String(value ?? "").trim();
 
   const direct = new Date(raw);
