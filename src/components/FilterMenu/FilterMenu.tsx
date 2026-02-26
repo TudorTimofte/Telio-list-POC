@@ -7,6 +7,7 @@ import type {
 import SearchInput from "./SearchInput";
 import FilterDropdown from "./FilterDropdown";
 import { useDateBuckets } from "../../hooks/useDateBuckets";
+import './FilterMenu.css';
 
 const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
 
@@ -205,34 +206,45 @@ export default function TableAgGridFilters({
   );
 
   return (
-    <div className="flex gap-2">
-      {fieldDefinitions.map((definition, idx) => {
-        const options = filterOptionsByField[definition.fieldName] ?? [];
-        const selectedValues = filters[definition.fieldName] ?? [];
+    <div className=" toolbar">
+      <div className="toolbarLeft flex items-center gap-2">
+        {/* <button type="button" onClick={() => {
+          onFilterInteraction();
+          setFilters(createEmptyFilters(filterFields));
+          setQuickFilter("");
+        }} className="ml-2 px-3 py-1.5 border border-gray-200 rounded-lg text-sm bg-white text-black">Reset</button> */}
 
-        return (
-          <FilterDropdown
-            key={`${definition.fieldName}-${idx}`}
-            id={definition.fieldName}
-            label={definition.label}
-            options={options}
-            selectedValues={selectedValues}
-            onChange={(values) => {
-              onFilterInteraction();
-              setFilters((previous) => ({
-                ...previous,
-                [definition.fieldName]: values,
-              }));
-            }}
-          />
-        );
-      })}
+        {fieldDefinitions.map((definition, idx) => {
+          const options = filterOptionsByField[definition.fieldName] ?? [];
+          const selectedValues = filters[definition.fieldName] ?? [];
 
-      <SearchInput
-        value={quickFilter}
-        onChange={handleQuickFilterChange}
-        placeholder="Search"
-      />
+          return (
+            <FilterDropdown
+              key={`${definition.fieldName}-${idx}`}
+              id={definition.fieldName}
+              label={definition.label}
+              options={options}
+              selectedValues={selectedValues}
+              onChange={(values) => {
+                onFilterInteraction();
+                setFilters((previous) => ({
+                  ...previous,
+                  [definition.fieldName]: values,
+                }));
+              }}
+            />
+          );
+        })}
+      </div>
+
+      <div className="toolbarRight">
+        <SearchInput
+          value={quickFilter}
+          onChange={handleQuickFilterChange}
+          placeholder="Search"
+        />
+
+      </div>
     </div>
   );
 }
