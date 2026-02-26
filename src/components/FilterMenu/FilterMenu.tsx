@@ -6,23 +6,9 @@ import type {
 } from "./FilterMenu.types";
 import SearchInput from "./SearchInput";
 import FilterDropdown from "./FilterDropdown";
+import { useDateBuckets } from "../../hooks/useDateBuckets";
 
 const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
-
-const MONTH_INDEX_BY_SHORT_NAME: Record<string, number> = {
-  jan: 0,
-  feb: 1,
-  mar: 2,
-  apr: 3,
-  may: 4,
-  jun: 5,
-  jul: 6,
-  aug: 7,
-  sep: 8,
-  oct: 9,
-  nov: 10,
-  dec: 11,
-};
 
 const DEFAULT_FIELD_ALIASES: Record<string, string> = {
   handledby: "AssignedTo",
@@ -68,62 +54,13 @@ function isSubmittedField(fieldName: string): boolean {
   return normalize(fieldName) === "submitted";
 }
 
-function parseCandidateDate(raw: string, now: Date): Date | null {
-  const directDate = new Date(raw);
-  if (!Number.isNaN(directDate.getTime())) {
-    return directDate;
-  }
-
-  const match = raw.match(/^(\d{1,2})\s+([a-zA-Z]{3,})/);
-  if (!match) {
-    return null;
-  }
-
-  const day = Number(match[1]);
-  const monthText = match[2].toLowerCase();
-  const monthIndex = MONTH_INDEX_BY_SHORT_NAME[monthText.slice(0, 3)];
-
-  if (monthIndex === undefined || Number.isNaN(day)) {
-    return null;
-  }
-
-  return new Date(now.getFullYear(), monthIndex, day);
-}
-
-function getSubmittedBucket(value: unknown): SubmittedBucket {
-  const raw = String(value ?? "").trim();
-  const lower = raw.toLowerCase();
-
-  if (lower.includes("today")) return "Today";
-  if (lower.includes("yesterday")) return "Yesterday";
-
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const candidateDate = parseCandidateDate(raw, now);
-
-  if (!candidateDate) return "Older";
-
-  const normalizedCandidate = new Date(
-    candidateDate.getFullYear(),
-    candidateDate.getMonth(),
-    candidateDate.getDate(),
-  );
-
-  const diffDays = Math.floor(
-    (today.getTime() - normalizedCandidate.getTime()) / (1000 * 60 * 60 * 24),
-  );
-
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  return "Older";
-}
-
 export default function TableAgGridFilters({
   config,
   rows,
   onFilteredRowsChange,
   onFilterInteraction,
 }: TableAgGridFiltersProps) {
+  const { getBucket } = useDateBuckets();
   const filterFields = useMemo(
     () => (config.FilterMetadata?.Fields ?? []).map((field) => field.Name),
     [config.FilterMetadata?.Fields],
@@ -237,7 +174,7 @@ export default function TableAgGridFilters({
           isSubmittedField(definition.fieldName) ||
           isDateTimeField(definition.dataType)
         ) {
-          const bucket = getSubmittedBucket(row[definition.sourceKey]);
+          const bucket = getBucket(row[definition.sourceKey]);
           return selectedValues.includes(bucket);
         }
 
@@ -253,7 +190,7 @@ export default function TableAgGridFilters({
           .includes(search),
       );
     });
-  }, [rows, fieldDefinitions, filters, quickFilter]);
+  }, [quickFilter, rows, fieldDefinitions, filters, getBucket]);
 
   useEffect(() => {
     onFilteredRowsChange(filteredRows);
