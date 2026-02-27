@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useRef } from "react";
 import { diffInDays, parseDate } from "../utils/date.utils.js";
 
 export type SubmittedBucket = "Today" | "Yesterday" | "Older";
@@ -8,10 +8,11 @@ export type SubmittedBucket = "Today" | "Yesterday" | "Older";
 ================================ */
 
 export function useDateBuckets(referenceDate?: Date) {
-  const now = referenceDate ?? new Date();
+  const fallbackNowRef = useRef(new Date());
+  const now = referenceDate ?? fallbackNowRef.current;
 
-  const getBucket = useMemo(() => {
-    return (value: unknown): SubmittedBucket => {
+  const getBucket = useCallback(
+    (value: unknown): SubmittedBucket => {
       const raw = String(value ?? "").toLowerCase();
 
       if (raw.includes("today")) return "Today";
@@ -26,8 +27,9 @@ export function useDateBuckets(referenceDate?: Date) {
       if (daysDiff === 1) return "Yesterday";
 
       return "Older";
-    };
-  }, [now]);
+    },
+    [now],
+  );
 
   return { getBucket };
 }
