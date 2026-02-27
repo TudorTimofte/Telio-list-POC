@@ -7,7 +7,7 @@ import type {
 import SearchInput from "./SearchInput";
 import FilterDropdown from "./FilterDropdown";
 import { useDateBuckets } from "../../hooks/useDateBuckets";
-import './FilterMenu.css';
+import './FiltersMenu.css';
 
 const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
 
