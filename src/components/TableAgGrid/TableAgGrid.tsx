@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 // import TableAgGridRow from "./TableAgGridRow";
 import TableAgGridPagination from "./TableAgGridPagination";
-import TableAgGridFilters from "../FilterMenu/FilterMenu";
+import FiltersMenu from "../FiltersMenu/FiltersMenu";
 
 interface TableAgGridProps {
   config: any;
@@ -81,7 +81,7 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
         </div>
         <div className="flex flex-wrap gap-2 items-center justify-between">
           {/* Filters UI is commented out as per instructions */}
-          <TableAgGridFilters
+          <FiltersMenu
             key={JSON.stringify(
               config?.FilterMetadata ?? config?.FilterModel ?? {},
             )}

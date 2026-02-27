@@ -3,7 +3,7 @@ import type {
   FiltersState,
   SubmittedBucket,
   TableAgGridFiltersProps,
-} from "./FilterMenu.types";
+} from "./FiltersMenu.types";
 import SearchInput from "./SearchInput";
 import FilterDropdown from "./FilterDropdown";
 import { useDateBuckets } from "../../hooks/useDateBuckets";
@@ -55,7 +55,7 @@ function isSubmittedField(fieldName: string): boolean {
   return normalize(fieldName) === "submitted";
 }
 
-export default function TableAgGridFilters({
+export default function FiltersMenu({
   config,
   rows,
   onFilteredRowsChange,
@@ -208,11 +208,6 @@ export default function TableAgGridFilters({
   return (
     <div className=" toolbar">
       <div className="toolbarLeft flex items-center gap-2">
-        {/* <button type="button" onClick={() => {
-          onFilterInteraction();
-          setFilters(createEmptyFilters(filterFields));
-          setQuickFilter("");
-        }} className="ml-2 px-3 py-1.5 border border-gray-200 rounded-lg text-sm bg-white text-black">Reset</button> */}
 
         {fieldDefinitions.map((definition, idx) => {
           const options = filterOptionsByField[definition.fieldName] ?? [];
