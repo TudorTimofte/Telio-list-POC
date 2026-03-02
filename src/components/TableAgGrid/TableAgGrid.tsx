@@ -14,6 +14,9 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
     (config?.Paging?.CurrentPage || 1) - 1,
   );
   const [pageSize, setPageSize] = useState(config?.Paging?.PageSize || 20);
+  const [sortCol, setSortCol] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
+
   const columnDefs = useMemo(() => {
     if (!config?.Columns) return [];
     return config.Columns.filter((col: any) => !col.Hidden).map((col: any) => ({
@@ -24,9 +27,21 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
     }));
   }, [config]);
 
-  // No filtering logic, just return all rows
   // const filteredRows = useMemo(() => rowData, [rowData]);
   const [filteredRows, setFilteredRows] = useState<RowData[]>(rowData);
+
+  // const filteredRows = useMemo(() => {
+  //   if (!sortCol) return rowData;
+  //   const sorted = [...rowData].sort((a, b) => {
+  //     const aVal = a[sortCol] ?? '';
+  //     const bVal = b[sortCol] ?? '';
+  //     if (aVal === bVal) return 0;
+  //     if (sortDir === 'asc') return aVal > bVal ? 1 : -1;
+  //     return aVal < bVal ? 1 : -1;
+  //   });
+  //   return sorted;
+  // }, [rowData, sortCol, sortDir]);
+
 
   // Pagination logic
   const pageCount = Math.ceil(filteredRows.length / pageSize);
@@ -68,6 +83,44 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
       ? Math.max(columnDefs.length * colWidth, minWidth)
       : minWidth;
 
+  	// Sort arrow rendering helper
+	const renderSortArrows = (col: any) => {
+		if (!col.sortable) return null;
+		return (
+			<span className="ml-1 select-none text-xs align-middle">
+				<span
+					style={{
+						color: sortCol === col.field && sortDir === 'asc' ? '#2563eb' : '#cbd5e1',
+						cursor: 'pointer',
+						display: 'inline-block',
+						lineHeight: 1,
+					}}
+					onClick={e => {
+						e.stopPropagation();
+						if (sortCol === col.field && sortDir === 'asc') setSortDir('desc');
+						else {
+							setSortCol(col.field);
+							setSortDir('asc');
+						}
+					}}
+				>▲</span>
+				<span
+					style={{
+						color: sortCol === col.field && sortDir === 'desc' ? '#2563eb' : '#cbd5e1',
+						cursor: 'pointer',
+						display: 'inline-block',
+						lineHeight: 1,
+					}}
+					onClick={e => {
+						e.stopPropagation();
+						setSortCol(col.field);
+						setSortDir('desc');
+					}}
+				>▼</span>
+			</span>
+		);
+	};
+
   return (
     <div
       className="mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-8"
@@ -103,14 +156,24 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
           <thead>
             <tr className="bg-gray-100">
               {columnDefs.map((col, idx) => (
-                <th
-                  key={col.field}
-                  className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap"
-                  style={{ minWidth: 80 }}
-                >
-                  {col.headerName}
-                </th>
-              ))}
+								<th
+									key={col.field}
+									className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap cursor-pointer select-none"
+									style={{ minWidth: 80 }}
+									onClick={() => {
+										if (!col.sortable) return;
+										if (sortCol === col.field) {
+											setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
+										} else {
+											setSortCol(col.field);
+											setSortDir('asc');
+										}
+									}}
+								>
+									{col.headerName}
+									{renderSortArrows(col)}
+								</th>
+							))}
             </tr>
           </thead>
           <tbody>
