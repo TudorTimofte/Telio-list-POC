@@ -108,5 +108,66 @@
       "PageSize": 20,
       "PageSizeOptions": [10, 20, 50, 100]
     }
+  },
+  "Columns": [
+    {
+      "ColumnName": "FirstName",
+      "DataType": "String",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+    },
+    {
+      "ColumnName": "LastName",
+      "DataType": "String",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "c8557ac7-438d-4dfc-b598-2f641136d129",
+      "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "ColumnName": "Age",
+      "DataType": "Number",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+    },
+    {
+      "ColumnName": "DateOfBirth",
+      "DataType": "Date",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+    },
+    {
+      "ColumnName": "FacilityName",
+      "DataType": "String",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+    },
+    {
+      "ColumnName": "LastLogin",
+      "DataType": "DateTime",
+      "Hidden": false,
+      "Sortable": true,
+      "HeaderFilterName": null,
+      "TitleTranslationKey": "14667683-36f5-4428-bbd0-ee3b1f5c0bb9",
+      "DescriptionTranslationKey": "29f9482f-2846-4d32-8151-360bd152dcac"
+    }
+  ],
+  "Paging": {
+    "CurrentPage": 1,
+    "PageSize": 20,
+    "PageSizeOptions": [10, 20, 50, 100]
   }
 }
