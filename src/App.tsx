@@ -13,6 +13,7 @@ import useTestEmployeeList from './hooks/useTestEmployeeList';
 function App() {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [filteredData, setFilteredData] = useState([]);
   const { data, count, loading, error } = useTestEmployeeList({ page: pageIndex + 1, pageSize });
 
   // When pageSize changes, reset to first page
@@ -56,29 +57,16 @@ function App() {
     console.log('Filter payload', payload.FilterJson);
 
     try {
-      const data = await fetchEmployeeList(payload);
-      console.log('data>>>>', data);
+      const response = await fetchEmployeeList(payload);
+      console.log('response>>>>', response);
 
-      // if (Array.isArray(data)) {
-      //   setMockData(data);
-      //   return;
-      // }
+      if (response && response.Data) {
+        setFilteredData(response.Data);
+      }
 
-      // if (Array.isArray(data?.items)) {
-      //   setMockData(data.items);
-      //   return;
-      // }
-
-      // if (Array.isArray(data?.Data)) {
-      //   console.log('Filtered data', data);
-      //   setMockData(data.Data);
-      //   return;
-      // }
-
-      // setMockData([]);
     } catch (error) {
       console.error('Failed to fetch employee list', error);
-      // setMockData([]);
+      setFilteredData([]);
     }
   };
 
@@ -86,7 +74,7 @@ function App() {
     <div>
       <TableAgGrid
         config={tableConfigs.config1}
-        data={data}
+        data={filteredData.length > 0 ? filteredData : data}
         pageIndex={pageIndex}
         setPageIndex={setPageIndex}
         pageSize={pageSize}
