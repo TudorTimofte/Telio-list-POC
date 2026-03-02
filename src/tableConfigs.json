@@ -142,8 +142,8 @@
       "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
     },
     {
-      "ColumnName": "AssignedTo",
-      "DataType": "String",
+      "ColumnName": "Age",
+      "DataType": "Number",
       "Hidden": false,
       "Sortable": true,
       "HeaderFilterName": null,
@@ -151,8 +151,8 @@
       "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
     },
     {
-      "ColumnName": "Sidis",
-      "DataType": "String",
+      "ColumnName": "DateOfBirth",
+      "DataType": "Date",
       "Hidden": false,
       "Sortable": true,
       "HeaderFilterName": null,
@@ -160,31 +160,13 @@
       "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
     },
     {
-      "ColumnName": "Cell",
+      "ColumnName": "FacilityName",
       "DataType": "String",
       "Hidden": false,
       "Sortable": true,
       "HeaderFilterName": null,
       "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
       "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Status",
-      "DataType": "String",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-      "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-    },
-    {
-      "ColumnName": "Submitted",
-      "DataType": "DateTime",
-      "Hidden": false,
-      "Sortable": true,
-      "HeaderFilterName": null,
-      "TitleTranslationKey": "e40f3527-15b6-4e14-9159-9ca039e9fa20",
-      "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
     },
     {
       "ColumnName": "LastLogin",
