@@ -89,7 +89,8 @@ export default function TableAgGrid({
     // Calculate responsive width based on column count
   const minWidth = 400;
   const colWidth = 160;
-  const containerWidth = columnDefs.length > 0 ? Math.max(columnDefs.length * colWidth, minWidth) : minWidth;
+  // const containerWidth = columnDefs.length > 0 ? Math.max(columnDefs.length * colWidth, minWidth) : minWidth;
+  const containerWidth = 800;
 
   // Sort arrow rendering helper
   const renderSortArrows = (col: any) => {
@@ -157,62 +158,62 @@ export default function TableAgGrid({
           />
         </div>
       </div>
-     <div className="ag-theme-quartz" style={{ maxHeight: 800, width: '100%', overflowY: 'auto' }}>
-              <table
-                className="w-full text-sm border border-gray-200 rounded-b-2xl overflow-hidden"
-                style={{ tableLayout: 'auto' }}
-              >
-                <thead>
-                  <tr className="bg-gray-100">
-                    {columnDefs.map((col, idx) => (
-                      <th
-                        key={col.field}
-                        className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap cursor-pointer select-none"
-                        style={{ minWidth: 80 }}
-                        onClick={() => {
-                          if (!col.sortable) return;
-                          if (sortCol === col.field) {
-                            setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
-                          } else {
-                            setSortCol(col.field);
-                            setSortDir('asc');
-                          }
-                        }}
-                      >
-                        {col.headerName}
-                        {renderSortArrows(col)}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <tr><td colSpan={columnDefs.length} className="text-center py-8 text-gray-400">Loading...</td></tr>
-                  ) : (
-                    sortedRows.map((rowData, idx) => (
-                      <tr
-                        key={idx}
-                        className={
-                          idx % 2 === 0
-                            ? 'bg-white hover:bg-gray-50 transition-colors'
-                            : 'bg-gray-50 hover:bg-gray-100 transition-colors'
-                        }
-                      >
-                        {columnDefs.map(col => (
-                          <td
-                            key={col.field}
-                            className="px-3 py-2 align-middle text-[15px] text-gray-900 border-b border-gray-100 text-left"
-                          >
-                            {typeof rowData[col.field] === 'object' && rowData[col.field] !== null
-                              ? JSON.stringify(rowData[col.field])
-                              : rowData[col.field]}
-                          </td>
-                        ))}
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+      <div className="ag-theme-quartz" style={{ maxHeight: 800, width: '100%', overflowY: 'auto' }}>
+        <table
+          className="w-full text-sm border border-gray-200 rounded-b-2xl overflow-hidden"
+          style={{ tableLayout: 'auto' }}
+        >
+          <thead>
+            <tr className="bg-gray-100">
+              {columnDefs.map((col, idx) => (
+                <th
+                  key={col.field}
+                  className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 whitespace-nowrap cursor-pointer select-none"
+                  style={{ minWidth: 80 }}
+                  onClick={() => {
+                    if (!col.sortable) return;
+                    if (sortCol === col.field) {
+                      setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
+                    } else {
+                      setSortCol(col.field);
+                      setSortDir('asc');
+                    }
+                  }}
+                >
+                  {col.headerName}
+                  {renderSortArrows(col)}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr><td colSpan={columnDefs.length} className="text-center py-8 text-gray-400">Loading...</td></tr>
+            ) : (
+              sortedRows.map((rowData, idx) => (
+                <tr
+                  key={idx}
+                  className={
+                    idx % 2 === 0
+                      ? 'bg-white hover:bg-gray-50 transition-colors'
+                      : 'bg-gray-50 hover:bg-gray-100 transition-colors'
+                  }
+                >
+                  {columnDefs.map(col => (
+                    <td
+                      key={col.field}
+                      className="px-3 py-2 align-middle text-[15px] text-gray-900 border-b border-gray-100 text-left"
+                    >
+                      {typeof rowData[col.field] === 'object' && rowData[col.field] !== null
+                        ? JSON.stringify(rowData[col.field])
+                        : rowData[col.field]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
       {/* Pagination Bar */}
       <TableAgGridPagination

@@ -4,10 +4,10 @@ import './App.css';
 import TableAgGrid from './components/TableAgGrid/TableAgGrid';
 import tableConfigs from './tableConfigs.json';
 import { fetchEmployeeList, type EmployeeListRequest } from './api/employeeApi';
-import type { FilterSelectionItem, RowData } from './components/FiltersMenu/FiltersMenu.types';
+import type { FilterSelectionItem } from './components/FiltersMenu/FiltersMenu.types';
 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useTestEmployeeList from './hooks/useTestEmployeeList';
 
 function App() {
@@ -22,29 +22,42 @@ function App() {
   };
 
   const fetchEmployeesByFilters = async (filters: FilterSelectionItem[]) => {
-    const normalizedFilters = filters.filter((item) => item.values.length > 0);
-    const filterObject = normalizedFilters.reduce<Record<string, string[]>>(
-      (accumulator, current) => {
-        accumulator[current.fieldName] = current.values;
-        return accumulator;
-      },
-      {},
-    );
+   const normalizedFilters = filters.filter(
+    (item) => item.values.length > 0
+  );
 
-    console.log('11111>>>', filterObject);
+  const filterObject = normalizedFilters.reduce<Record<string, string[]>>(
+    (accumulator, current) => {
+      accumulator[current.fieldName] = current.values;
+      return accumulator;
+    },
+    {}
+  );
 
-    const payload: EmployeeListRequest = {
-      Columns: [
-        { ColumnName: 'FirstName', Visible: true },
-        { ColumnName: 'Age', Visible: false }
-      ],
-      FilterJson: JSON.stringify(filterObject),
-      Sortings: [],
-      Paging: { CurrentPage: 1, PageSize: 10 },
-    };
+
+  const payload: EmployeeListRequest = {
+    Columns: [
+      { ColumnName: 'FirstName', Visible: true },
+      { ColumnName: 'LastName', Visible: true },
+      { ColumnName: 'AssignedTo', Visible: true },
+      { ColumnName: 'Salary', Visible: true },
+      { ColumnName: 'Age', Visible: true },
+      { ColumnName: 'LastLogin', Visible: true }
+    ],
+    // FilterJson: JSON.stringify(filterObject),
+    FilterJson: JSON.stringify({ "Name": "Aaron" }),
+    Sortings: [
+      { ColumnName: 'LastName', Direction: 1 }
+    ],
+    Paging: { CurrentPage: 1, PageSize: 10 },
+  };
+
+
+    console.log('Filter payload', payload.FilterJson);
 
     try {
-      // const data = await fetchEmployeeList(payload);
+      const data = await fetchEmployeeList(payload);
+      console.log('data>>>>', data);
 
       // if (Array.isArray(data)) {
       //   setMockData(data);
@@ -57,6 +70,7 @@ function App() {
       // }
 
       // if (Array.isArray(data?.Data)) {
+      //   console.log('Filtered data', data);
       //   setMockData(data.Data);
       //   return;
       // }
@@ -64,7 +78,7 @@ function App() {
       // setMockData([]);
     } catch (error) {
       console.error('Failed to fetch employee list', error);
-      setMockData([]);
+      // setMockData([]);
     }
   };
 

@@ -21,13 +21,20 @@
           "Name": "Submitted",
           "IsDisplayed": false,
           "LabelResourceKey": null
+        },
+        {
+          "Type": "String",
+          "Name": "Name",
+          "IsDisplayed": false,
+          "LabelResourceKey": null
         }
       ]
     },
     "FilterModel": {
       "HandledBy": null,
       "Status": null,
-      "Submitted": null
+      "Submitted": null,
+      "Name": null
     },
     "Columns": [
       {

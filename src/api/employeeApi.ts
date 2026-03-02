@@ -20,21 +20,21 @@ export interface EmployeeListRequest {
   Paging: EmployeePagingRequest;
 }
 
-const EMPLOYEE_LIST_URL = "/testemployee/list";
+export async function fetchEmployeeList<T = unknown>(
+  payload: EmployeeListRequest
+): Promise<T> {
 
-export async function fetchEmployeeList(payload: EmployeeListRequest) {
-  const response = await fetch(EMPLOYEE_LIST_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload),
-  }).then((res) => {
-    return res;
+  const response = await fetch('testemployee/list', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
   });
+
   if (!response.ok) {
-    throw new Error(`Employee list request failed with status ${response.status}`);
+    throw new Error(
+      `Employee list request failed with status ${response.status}`
+    );
   }
 
-  return response.json();
+  return await response.json();
 }

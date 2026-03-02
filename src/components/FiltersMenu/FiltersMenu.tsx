@@ -14,6 +14,8 @@ const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
 
 const DEFAULT_FIELD_ALIASES: Record<string, string> = {
   handledby: "AssignedTo",
+  status: "Status",
+  name: "FirstName",
 };
 
 function normalize(value: string): string {
@@ -195,13 +197,26 @@ export default function FiltersMenu({
     onFilteredRowsChange(filteredRows);
   }, [filteredRows, onFilteredRowsChange]);
 
-  useEffect(() => {
-    const filtersList: FilterSelectionItem[] = Object.entries(filters).map(
-      ([fieldName, values]) => ({ fieldName, values }),
-    );
+const onFilterDropdownChange = (values: string[], fieldName: string) => {
+  onFilterInteraction();
+
+  setFilters((previous) => {
+    const updatedFilters = {
+      ...previous,
+      [fieldName]: values,
+    };
+
+    const filtersList: FilterSelectionItem[] = Object.entries(updatedFilters)
+      .map(([fieldName, values]) => ({
+        fieldName,
+        values,
+      }));
+
     onFiltersChange?.(filtersList);
-    console.log('here')
-  }, [filters, onFiltersChange]);
+
+    return updatedFilters;
+  });
+};
 
   const handleQuickFilterChange = useCallback(
     (value: string) => {
@@ -226,13 +241,7 @@ export default function FiltersMenu({
               label={definition.label}
               options={options}
               selectedValues={selectedValues}
-              onChange={(values) => {
-                onFilterInteraction();
-                setFilters((previous) => ({
-                  ...previous,
-                  [definition.fieldName]: values,
-                }));
-              }}
+              onChange={(values) => onFilterDropdownChange(values, definition.fieldName)}
             />
           );
         })}
