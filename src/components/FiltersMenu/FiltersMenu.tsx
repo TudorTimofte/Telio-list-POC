@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import type {
+  FilterSelectionItem,
   FiltersState,
   SubmittedBucket,
   TableAgGridFiltersProps,
@@ -60,6 +61,7 @@ export default function FiltersMenu({
   rows,
   onFilteredRowsChange,
   onFilterInteraction,
+  onFiltersChange,
 }: TableAgGridFiltersProps) {
   const { getBucket } = useDateBuckets();
   const filterFields = useMemo(
@@ -71,10 +73,6 @@ export default function FiltersMenu({
     createEmptyFilters(filterFields),
   );
   const [quickFilter, setQuickFilter] = useState("");
-
-  useEffect(() => {
-    setFilters(createEmptyFilters(filterFields));
-  }, [filterFields]);
 
   const fieldDefinitions = useMemo(() => {
     const rowKeys = rows.length > 0 ? Object.keys(rows[0]) : [];
@@ -196,6 +194,14 @@ export default function FiltersMenu({
   useEffect(() => {
     onFilteredRowsChange(filteredRows);
   }, [filteredRows, onFilteredRowsChange]);
+
+  useEffect(() => {
+    const filtersList: FilterSelectionItem[] = Object.entries(filters).map(
+      ([fieldName, values]) => ({ fieldName, values }),
+    );
+    onFiltersChange?.(filtersList);
+    console.log('here')
+  }, [filters, onFiltersChange]);
 
   const handleQuickFilterChange = useCallback(
     (value: string) => {

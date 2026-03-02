@@ -20,19 +20,16 @@ export interface EmployeeListRequest {
   Paging: EmployeePagingRequest;
 }
 
-const EMPLOYEE_LIST_URL = "http://localhost:5000/testemployee/list";
+const EMPLOYEE_LIST_URL = "/testemployee/list";
 
 export async function fetchEmployeeList(payload: EmployeeListRequest) {
-  console.log('fetchEmployeeList >>>', payload);
   const response = await fetch(EMPLOYEE_LIST_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(payload),
   }).then((res) => {
-    console.log('Raw response:', res);
     return res;
   });
   if (!response.ok) {

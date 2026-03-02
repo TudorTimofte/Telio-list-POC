@@ -2,13 +2,19 @@ import React, { useState, useEffect, useMemo } from "react";
 // import TableAgGridRow from "./TableAgGridRow";
 import TableAgGridPagination from "./TableAgGridPagination";
 import FiltersMenu from "../FiltersMenu/FiltersMenu";
+import type { FilterSelectionItem } from "../FiltersMenu/FiltersMenu.types";
 
 interface TableAgGridProps {
   config: any;
   data: any[];
+  onFiltersChange?: (filters: FilterSelectionItem[]) => void;
 }
 
-export default function TableAgGrid({ config, data }: TableAgGridProps) {
+export default function TableAgGrid({
+  config,
+  data,
+  onFiltersChange,
+}: TableAgGridProps) {
   const [rowData, setRowData] = useState<any[]>([]);
   const [pageIndex, setPageIndex] = useState(
     (config?.Paging?.CurrentPage || 1) - 1,
@@ -142,6 +148,7 @@ export default function TableAgGrid({ config, data }: TableAgGridProps) {
             rows={rowData}
             onFilteredRowsChange={setFilteredRows}
             onFilterInteraction={() => setPageIndex(0)}
+            onFiltersChange={onFiltersChange}
           />
         </div>
       </div>

@@ -3,6 +3,10 @@ export type RowData = Record<string, RowValue>;
 
 export type SubmittedBucket = "Today" | "Yesterday" | "Older";
 export type FiltersState = Record<string, string[]>;
+export interface FilterSelectionItem {
+  fieldName: string;
+  values: string[];
+}
 
 export interface FilterField {
   Name: string;
@@ -32,6 +36,7 @@ export interface TableAgGridFiltersProps {
   rows: RowData[];
   onFilteredRowsChange: (rows: RowData[]) => void;
   onFilterInteraction: () => void;
+  onFiltersChange?: (filters: FilterSelectionItem[]) => void;
 }
 
 export interface FilterMetadata {
