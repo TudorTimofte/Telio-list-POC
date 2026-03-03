@@ -1,0 +1,16 @@
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto; /* left grows, right stays at content width */
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.toolbarRight {
+  justify-self: end; /* force right side */
+}
+
+/* important: remove full-width input rules */
+.toolbarRight input {
+  width: 240px; /* or max-width as needed */
+}

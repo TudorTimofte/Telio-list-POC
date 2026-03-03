@@ -1,16 +1,23 @@
 
 import './App.css';
-import TableUI from './TableUI/TableUI';
-import TableAgGrid from './TableAgGrid/TableAgGrid';
+// import TableUI from './components/TableUI/TableUI';
+import TableAgGrid from './components/TableAgGrid/TableAgGrid';
 import tableConfigs from './tableConfigs.json';
+import { fetchEmployeeList, type EmployeeListRequest } from './api/employeeApi';
+import type { FilterSelectionItem } from './components/FiltersMenu/FiltersMenu.types';
 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useTestEmployeeList from './hooks/useTestEmployeeList';
+
+interface EmployeeListResponse {
+  Data?: Record<string, unknown>[];
+}
 
 function App() {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [filteredData, setFilteredData] = useState<Record<string, unknown>[]>([]);
   const { data, count, loading, error } = useTestEmployeeList({ page: pageIndex + 1, pageSize });
 
   // When pageSize changes, reset to first page
@@ -19,17 +26,66 @@ function App() {
     setPageIndex(0);
   };
 
+  const fetchEmployeesByFilters = async (filters: FilterSelectionItem[]) => {
+   const normalizedFilters = filters.filter(
+    (item) => item.values.length > 0
+  );
+
+  const filterObject = normalizedFilters.reduce<Record<string, string[]>>(
+    (accumulator, current) => {
+      accumulator[current.fieldName] = current.values;
+      return accumulator;
+    },
+    {}
+  );
+
+
+  const payload: EmployeeListRequest = {
+    Columns: [
+      { ColumnName: 'FirstName', Visible: true },
+      { ColumnName: 'LastName', Visible: true },
+      { ColumnName: 'AssignedTo', Visible: true },
+      { ColumnName: 'Salary', Visible: true },
+      { ColumnName: 'Age', Visible: true },
+      { ColumnName: 'LastLogin', Visible: true }
+    ],
+    // FilterJson: JSON.stringify(filterObject),
+    FilterJson: JSON.stringify({ "Name": "Aaron" }),
+    Sortings: [
+      { ColumnName: 'LastName', Direction: 1 }
+    ],
+    Paging: { CurrentPage: 1, PageSize: 10 },
+  };
+
+
+    console.log('Filter payload', payload.FilterJson);
+
+    try {
+      const response = await fetchEmployeeList<EmployeeListResponse>(payload);
+      console.log('response>>>>', response);
+
+      if (response && response.Data) {
+        setFilteredData(response.Data);
+      }
+
+    } catch (error) {
+      console.error('Failed to fetch employee list', error);
+      setFilteredData([]);
+    }
+  };
+
   return (
     <div>
       <TableAgGrid
         config={tableConfigs.config1}
-        data={data}
+        data={filteredData.length > 0 ? filteredData : data}
         pageIndex={pageIndex}
         setPageIndex={setPageIndex}
         pageSize={pageSize}
         setPageSize={handlePageSizeChange}
         total={count}
         loading={loading}
+        onFiltersChange={fetchEmployeesByFilters}
       />
       {error && <div className="text-red-500 mt-4">Error loading data</div>}
     </div>
