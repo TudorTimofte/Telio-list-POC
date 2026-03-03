@@ -2,7 +2,6 @@ import { useMemo, useState, useEffect, useCallback } from "react";
 import type {
   FilterSelectionItem,
   FiltersState,
-  SubmittedBucket,
   TableAgGridFiltersProps,
 } from "./FiltersMenu.types";
 import SearchInput from "./SearchInput";
@@ -10,7 +9,6 @@ import FilterDropdown from "./FilterDropdown";
 import { useDateBuckets } from "../../hooks/useDateBuckets";
 import './FiltersMenu.css';
 
-const SUBMITTED_OPTIONS: SubmittedBucket[] = ["Today", "Yesterday", "Older"];
 
 const DEFAULT_FIELD_ALIASES: Record<string, string> = {
   handledby: "AssignedTo",
@@ -58,9 +56,7 @@ function isSubmittedField(fieldName: string): boolean {
   return normalize(fieldName) === "submitted";
 }
 
-function usesSubmittedBuckets(fieldName: string, dataType?: string): boolean {
-  return isSubmittedField(fieldName) || isDateTimeField(dataType);
-}
+// Remove usesSubmittedBuckets, now Submitted filter uses actual dates
 
 function isPresentValue(value: unknown): boolean {
   return value !== undefined && value !== null && String(value).trim() !== "";
@@ -162,8 +158,29 @@ export default function FiltersMenu({
         return;
       }
 
-      if (usesSubmittedBuckets(definition.fieldName, definition.dataType)) {
-        options[definition.fieldName] = SUBMITTED_OPTIONS;
+      // For Submitted filter, use all LastLogin values from initialRows
+      if (normalize(definition.fieldName) === "submitted") {
+        const uniqueDates = Array.from(
+          new Set(
+            rows
+              .map((row) => row['LastLogin'])
+              .filter(isPresentValue)
+          )
+        );
+        options[definition.fieldName] = uniqueDates;
+        return;
+      }
+
+      // For other date fields, use formatted values
+      if (isDateTimeField(definition.dataType)) {
+        const uniqueDates = Array.from(
+          new Set(
+            rows
+              .map((row) => getBucket(row[definition.sourceKey]))
+              .filter((date) => date)
+          )
+        );
+        options[definition.fieldName] = uniqueDates;
         return;
       }
 
@@ -189,9 +206,10 @@ export default function FiltersMenu({
         const selectedValues = filters[definition.fieldName] || [];
         if (selectedValues.length === 0) return true;
 
-        if (usesSubmittedBuckets(definition.fieldName, definition.dataType)) {
-          const bucket = getBucket(row[definition.sourceKey]);
-          return selectedValues.includes(bucket);
+        // For Submitted/date fields, match on formatted date
+        if (normalize(definition.fieldName) === "submitted" || isDateTimeField(definition.dataType)) {
+          const date = getBucket(row[definition.sourceKey]);
+          return selectedValues.includes(date);
         }
 
         return selectedValues.includes(String(row[definition.sourceKey] ?? ""));

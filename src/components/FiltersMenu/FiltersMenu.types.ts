@@ -1,7 +1,6 @@
 export type RowValue = string | number | boolean | null | undefined | Date;
 export type RowData = Record<string, RowValue>;
 
-export type SubmittedBucket = "Today" | "Yesterday" | "Older";
 export type FiltersState = Record<string, string[]>;
 export interface FilterSelectionItem {
   fieldName: string;

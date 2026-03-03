@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
 import { diffInDays, parseDate } from "../utils/date.utils.js";
 
-export type SubmittedBucket = "Today" | "Yesterday" | "Older";
 
 /* ===============================
    Hook
@@ -11,22 +10,20 @@ export function useDateBuckets(referenceDate?: Date) {
   const fallbackNowRef = useRef(new Date());
   const now = referenceDate ?? fallbackNowRef.current;
 
+  // Format date as MM/DD/YYYY
+  const formatDate = (date: Date): string => {
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${mm}/${dd}/${yyyy}`;
+  };
+
+  // Returns MM/DD/YYYY string if valid date, else empty string
   const getBucket = useCallback(
-    (value: unknown): SubmittedBucket => {
-      const raw = String(value ?? "").toLowerCase();
-
-      if (raw.includes("today")) return "Today";
-      if (raw.includes("yesterday")) return "Yesterday";
-
+    (value: unknown): string => {
       const parsed = parseDate(value, now);
-      if (!parsed) return "Older";
-
-      const daysDiff = diffInDays(now, parsed);
-
-      if (daysDiff <= 0) return "Today";
-      if (daysDiff === 1) return "Yesterday";
-
-      return "Older";
+      if (!parsed) return '';
+      return formatDate(parsed);
     },
     [now],
   );

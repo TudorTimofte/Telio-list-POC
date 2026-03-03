@@ -28,6 +28,7 @@ export default function TableAgGrid({
   onFiltersChange,
 }: TableAgGridProps) {
   const [rowData, setRowData] = useState<any[]>([]);
+  const [initialRows, setInitialRows] = useState<any[]>([]);
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
@@ -71,6 +72,16 @@ export default function TableAgGrid({
     const normalize = (str: string) =>
       str.replace(/[^a-z0-9]/gi, "").toLowerCase();
     const columnFields = config.Columns.map((col: any) => col.ColumnName);
+    // Helper to format date string as MM/DD/YYYY
+    const formatDate = (dateStr: string) => {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${mm}/${dd}/${yyyy}`;
+    };
     const mapped = data.map((row: any) => {
       const mappedRow: any = {};
       columnFields.forEach((field: string) => {
@@ -79,18 +90,24 @@ export default function TableAgGrid({
         const dataKey = Object.keys(row).find(
           (k) => normalize(k) === normField,
         );
-        mappedRow[field] = dataKey ? row[dataKey] : "";
+        if (field === 'LastLogin' && dataKey) {
+          mappedRow[field] = formatDate(row[dataKey]);
+        } else {
+          mappedRow[field] = dataKey ? row[dataKey] : "";
+        }
       });
       return mappedRow;
     });
     setRowData(mapped);
+    // Only set initialRows once (on first load)
+    setInitialRows(prev => prev.length === 0 ? mapped : prev);
   }, [data, config]);
 
     // Calculate responsive width based on column count
   const minWidth = 400;
   const colWidth = 160;
   // const containerWidth = columnDefs.length > 0 ? Math.max(columnDefs.length * colWidth, minWidth) : minWidth;
-  const containerWidth = 800;
+  const containerWidth = 1200;
 
   // Sort arrow rendering helper
   const renderSortArrows = (col: any) => {
@@ -151,7 +168,7 @@ export default function TableAgGrid({
               config?.FilterMetadata ?? config?.FilterModel ?? {},
             )}
             config={config as unknown as Record<string, unknown>}
-            rows={rowData}
+            rows={initialRows}
             onFilteredRowsChange={setFilteredRows}
             onFilterInteraction={() => setPageIndex(0)}
             onFiltersChange={onFiltersChange}

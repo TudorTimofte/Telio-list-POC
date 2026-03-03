@@ -6,18 +6,6 @@
       "Fields": [
         {
           "Type": "String",
-          "Name": "HandledBy",
-          "IsDisplayed": false,
-          "LabelResourceKey": null
-        },
-        {
-          "Type": "String",
-          "Name": "Status",
-          "IsDisplayed": false,
-          "LabelResourceKey": null
-        },
-        {
-          "Type": "String",
           "Name": "Submitted",
           "IsDisplayed": false,
           "LabelResourceKey": null
@@ -56,7 +44,25 @@
         "DescriptionTranslationKey": "00000000-0000-0000-0000-000000000000"
       },
       {
-        "ColumnName": "AssignedTo",
+        "ColumnName": "Age",
+        "DataType": "Number",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "DateOfBirth",
+        "DataType": "Date",
+        "Hidden": false,
+        "Sortable": true,
+        "HeaderFilterName": null,
+        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
+        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
+      },
+      {
+        "ColumnName": "FacilityName",
         "DataType": "String",
         "Hidden": false,
         "Sortable": true,
@@ -65,25 +71,7 @@
         "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
       },
       {
-        "ColumnName": "Sidis",
-        "DataType": "String",
-        "Hidden": false,
-        "Sortable": true,
-        "HeaderFilterName": null,
-        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-      },
-      {
-        "ColumnName": "Cell",
-        "DataType": "String",
-        "Hidden": false,
-        "Sortable": true,
-        "HeaderFilterName": null,
-        "TitleTranslationKey": "4c493fe8-3e5d-4659-8803-e2deb5f47c78",
-        "DescriptionTranslationKey": "5c9ac712-8de1-4dbd-9f94-c9f421251678"
-      },
-      {
-        "ColumnName": "Status",
+        "ColumnName": "FacilityCompanyName",
         "DataType": "String",
         "Hidden": false,
         "Sortable": true,

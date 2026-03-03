@@ -31,14 +31,16 @@ function App() {
     (item) => item.values.length > 0
   );
 
-  const filterObject = normalizedFilters.reduce<Record<string, string[]>>(
-    (accumulator, current) => {
-      accumulator[current.fieldName] = current.values;
-      return accumulator;
-    },
-    {}
-  );
 
+  // Build FilterJson string with repeated keys for multiple selections
+  let filterJsonStr = '';
+  normalizedFilters.forEach((current) => {
+    current.values.forEach((value) => {
+      if (filterJsonStr.length > 0) filterJsonStr += ',';
+      filterJsonStr += `"${current.fieldName}":"${value}"`;
+    });
+  });
+  filterJsonStr = filterJsonStr ? `{${filterJsonStr}}` : '';
 
   const payload: EmployeeListRequest = {
     Columns: [
@@ -49,8 +51,8 @@ function App() {
       { ColumnName: 'Age', Visible: true },
       { ColumnName: 'LastLogin', Visible: true }
     ],
-    // FilterJson: JSON.stringify(filterObject),
-    FilterJson: JSON.stringify({ "Name": "Aaron" }),
+    FilterJson: filterJsonStr,
+    // FilterJson: JSON.stringify({ "Name": "Aaron" }),
     Sortings: [
       { ColumnName: 'LastName', Direction: 1 }
     ],
