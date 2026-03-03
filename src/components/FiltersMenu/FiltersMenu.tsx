@@ -58,6 +58,21 @@ function isSubmittedField(fieldName: string): boolean {
   return normalize(fieldName) === "submitted";
 }
 
+function usesSubmittedBuckets(fieldName: string, dataType?: string): boolean {
+  return isSubmittedField(fieldName) || isDateTimeField(dataType);
+}
+
+function isPresentValue(value: unknown): boolean {
+  return value !== undefined && value !== null && String(value).trim() !== "";
+}
+
+function toFilterSelectionItems(filters: FiltersState): FilterSelectionItem[] {
+  return Object.entries(filters).map(([fieldName, values]) => ({
+    fieldName,
+    values,
+  }));
+}
+
 export default function FiltersMenu({
   config,
   rows,
@@ -66,9 +81,15 @@ export default function FiltersMenu({
   onFiltersChange,
 }: TableAgGridFiltersProps) {
   const { getBucket } = useDateBuckets();
-  const filterFields = useMemo(
-    () => (config.FilterMetadata?.Fields ?? []).map((field) => field.Name),
+  const metadataFields = useMemo(
+    () => config.FilterMetadata?.Fields ?? [],
     [config.FilterMetadata?.Fields],
+  );
+  const columns = useMemo(() => config.Columns ?? [], [config.Columns]);
+
+  const filterFields = useMemo(
+    () => metadataFields.map((field) => field.Name),
+    [metadataFields],
   );
 
   const [filters, setFilters] = useState<FiltersState>(() =>
@@ -80,15 +101,15 @@ export default function FiltersMenu({
     const rowKeys = rows.length > 0 ? Object.keys(rows[0]) : [];
 
     return filterFields.map((fieldName) => {
-      const metadataField = config.FilterMetadata?.Fields?.find(
+      const metadataField = metadataFields.find(
         (field) => field.Name === fieldName,
       );
 
       const matchingColumn =
-        (config.Columns || []).find(
+        columns.find(
           (column) => normalize(column.ColumnName) === normalize(fieldName),
         ) ||
-        (config.Columns || []).find(
+        columns.find(
           (column) =>
             normalize(column.HeaderFilterName || "") === normalize(fieldName),
         );
@@ -123,8 +144,8 @@ export default function FiltersMenu({
   }, [
     filterFields,
     rows,
-    config.FilterMetadata,
-    config.Columns,
+    metadataFields,
+    columns,
     config.FilterAliases,
   ]);
 
@@ -141,10 +162,7 @@ export default function FiltersMenu({
         return;
       }
 
-      if (
-        isSubmittedField(definition.fieldName) ||
-        isDateTimeField(definition.dataType)
-      ) {
+      if (usesSubmittedBuckets(definition.fieldName, definition.dataType)) {
         options[definition.fieldName] = SUBMITTED_OPTIONS;
         return;
       }
@@ -153,7 +171,7 @@ export default function FiltersMenu({
         new Set(
           rows
             .map((row) => row[definition.sourceKey])
-            .filter((value) => value !== undefined && value !== null && String(value).trim() !== "")
+            .filter(isPresentValue)
             .map((value) => String(value)),
         ),
       );
@@ -171,10 +189,7 @@ export default function FiltersMenu({
         const selectedValues = filters[definition.fieldName] || [];
         if (selectedValues.length === 0) return true;
 
-        if (
-          isSubmittedField(definition.fieldName) ||
-          isDateTimeField(definition.dataType)
-        ) {
+        if (usesSubmittedBuckets(definition.fieldName, definition.dataType)) {
           const bucket = getBucket(row[definition.sourceKey]);
           return selectedValues.includes(bucket);
         }
@@ -197,26 +212,23 @@ export default function FiltersMenu({
     onFilteredRowsChange(filteredRows);
   }, [filteredRows, onFilteredRowsChange]);
 
-const onFilterDropdownChange = (values: string[], fieldName: string) => {
-  onFilterInteraction();
+  const onFilterDropdownChange = useCallback(
+    (values: string[], fieldName: string) => {
+      onFilterInteraction();
 
-  setFilters((previous) => {
-    const updatedFilters = {
-      ...previous,
-      [fieldName]: values,
-    };
+      setFilters((previous) => {
+        const updatedFilters = {
+          ...previous,
+          [fieldName]: values,
+        };
 
-    const filtersList: FilterSelectionItem[] = Object.entries(updatedFilters)
-      .map(([fieldName, values]) => ({
-        fieldName,
-        values,
-      }));
+        onFiltersChange?.(toFilterSelectionItems(updatedFilters));
 
-    onFiltersChange?.(filtersList);
-
-    return updatedFilters;
-  });
-};
+        return updatedFilters;
+      });
+    },
+    [onFilterInteraction, onFiltersChange],
+  );
 
   const handleQuickFilterChange = useCallback(
     (value: string) => {
@@ -230,13 +242,13 @@ const onFilterDropdownChange = (values: string[], fieldName: string) => {
     <div className=" toolbar">
       <div className="toolbarLeft flex items-center gap-2">
 
-        {fieldDefinitions.map((definition, idx) => {
+        {fieldDefinitions.map((definition) => {
           const options = filterOptionsByField[definition.fieldName] ?? [];
           const selectedValues = filters[definition.fieldName] ?? [];
 
           return (
             <FilterDropdown
-              key={`${definition.fieldName}-${idx}`}
+              key={definition.fieldName}
               id={definition.fieldName}
               label={definition.label}
               options={options}

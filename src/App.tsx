@@ -10,10 +10,14 @@ import type { FilterSelectionItem } from './components/FiltersMenu/FiltersMenu.t
 import { useState } from 'react';
 import useTestEmployeeList from './hooks/useTestEmployeeList';
 
+interface EmployeeListResponse {
+  Data?: Record<string, unknown>[];
+}
+
 function App() {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState<Record<string, unknown>[]>([]);
   const { data, count, loading, error } = useTestEmployeeList({ page: pageIndex + 1, pageSize });
 
   // When pageSize changes, reset to first page
@@ -57,7 +61,7 @@ function App() {
     console.log('Filter payload', payload.FilterJson);
 
     try {
-      const response = await fetchEmployeeList(payload);
+      const response = await fetchEmployeeList<EmployeeListResponse>(payload);
       console.log('response>>>>', response);
 
       if (response && response.Data) {
